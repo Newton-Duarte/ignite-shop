@@ -6,16 +6,17 @@ import { stripe } from "@/lib/stripe"
 
 import 'keen-slider/keen-slider.min.css'
 import Stripe from "stripe"
+import { formatPrice } from "@/utils/formatter"
 
-type Product = {
+type TProduct = {
   id: string
   name: string
   imageUrl: string
-  price: number
+  price: string
 }
 
 interface HomeProps {
-  products: Product[]
+  products: TProduct[]
 }
 
 export default function Home({ products }: HomeProps) {
@@ -34,7 +35,7 @@ export default function Home({ products }: HomeProps) {
 
           <footer>
             <strong>{product.name}</strong>
-            <span>R$ {product.price}</span>
+            <span>{product.price}</span>
           </footer>
         </Product>
       ))}
@@ -47,14 +48,14 @@ export const getStaticProps: GetStaticProps = async () => {
     expand: ['data.default_price']
   })
 
-  const products: Product[] = response.data.map((product) => {
+  const products: TProduct[] = response.data.map((product) => {
     const price = product.default_price as Stripe.Price
 
     return {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: price.unit_amount ? price.unit_amount / 100 : 0
+      price: price.unit_amount ? formatPrice(price.unit_amount / 100) : '0'
     }
   })
 
