@@ -1,4 +1,5 @@
 import { GetStaticProps } from "next"
+import Link from "next/link"
 import Image from "next/image"
 import { useKeenSlider } from 'keen-slider/react'
 import { HomeContainer, Product } from "../styles/pages/home"
@@ -30,7 +31,8 @@ export default function Home({ products }: HomeProps) {
   return (
     <HomeContainer ref={sliderRef} className="keen-slider">
       {products.map((product) => (
-        <Product key={product.id} className="keen-slider__slide">
+        <Link passHref href={`product/${product.id}`} key={product.id} legacyBehavior>
+          <Product className="keen-slider__slide">
           <Image src={product.imageUrl} width={520} height={480} alt="" />
 
           <footer>
@@ -38,6 +40,7 @@ export default function Home({ products }: HomeProps) {
             <span>{product.price}</span>
           </footer>
         </Product>
+        </Link>
       ))}
     </HomeContainer>
   )

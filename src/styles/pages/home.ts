@@ -18,6 +18,7 @@ export const Product = styled('a', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  color: '$gray100',
 
   img: {
     objectFit: 'cover'
