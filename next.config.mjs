@@ -2,8 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    remotePatterns: [{ hostname: 'files.stripe.com' }]
-  }
-};
+    remotePatterns: [
+      { hostname: 'files.stripe.com' },
+      { hostname: 'github.com' },
+    ],
+  },
+}
 
-export default nextConfig;
+export default nextConfig
