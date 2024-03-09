@@ -1,16 +1,22 @@
 import { GetStaticProps } from 'next'
+import React from 'react'
 import Link from 'next/link'
+import Head from 'next/head'
 import Image from 'next/image'
+import Stripe from 'stripe'
 import { useKeenSlider } from 'keen-slider/react'
-import { HomeContainer, Product } from '../styles/pages/home'
+import { CaretLeft, CaretRight } from 'phosphor-react'
+import {
+  ArrowLeftContainer,
+  ArrowRightContainer,
+  HomeContainer,
+  Product,
+} from '../styles/pages/home'
 import { stripe } from '@/lib/stripe'
 
 import 'keen-slider/keen-slider.min.css'
-import Stripe from 'stripe'
 import { formatPrice } from '@/utils/formatter'
-import Head from 'next/head'
 import { CartButton } from '@/components/CartButton'
-import React from 'react'
 
 type TProduct = {
   id: string
@@ -24,7 +30,7 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
-  const [sliderRef] = useKeenSlider({
+  const [sliderRef, slider] = useKeenSlider({
     slides: {
       perView: 2,
       spacing: 48,
@@ -41,6 +47,12 @@ export default function Home({ products }: HomeProps) {
         <title>Home | Ignite Shop</title>
       </Head>
       <HomeContainer ref={sliderRef} className="keen-slider">
+        <ArrowLeftContainer onClick={() => slider.current?.prev()}>
+          <CaretLeft size={48} />
+        </ArrowLeftContainer>
+        <ArrowRightContainer onClick={() => slider.current?.next()}>
+          <CaretRight size={48} />
+        </ArrowRightContainer>
         {products.map((product) => (
           <Link
             passHref
