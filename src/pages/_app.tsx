@@ -1,4 +1,5 @@
 import { Header } from '@/components/Header'
+import { Sidebar } from '@/components/Sidebar'
 import { globalStyles } from '@/styles/global'
 import { Container } from '@/styles/pages/app'
 import type { AppProps } from 'next/app'
@@ -11,6 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Header />
 
       <Component {...pageProps} />
+      <Sidebar />
     </Container>
   )
 }
