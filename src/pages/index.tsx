@@ -1,14 +1,16 @@
-import { GetStaticProps } from "next"
-import Link from "next/link"
-import Image from "next/image"
+import { GetStaticProps } from 'next'
+import Link from 'next/link'
+import Image from 'next/image'
 import { useKeenSlider } from 'keen-slider/react'
-import { HomeContainer, Product } from "../styles/pages/home"
-import { stripe } from "@/lib/stripe"
+import { HomeContainer, Product } from '../styles/pages/home'
+import { stripe } from '@/lib/stripe'
 
 import 'keen-slider/keen-slider.min.css'
-import Stripe from "stripe"
-import { formatPrice } from "@/utils/formatter"
-import Head from "next/head"
+import Stripe from 'stripe'
+import { formatPrice } from '@/utils/formatter'
+import Head from 'next/head'
+import { CartButton } from '@/components/CartButton'
+import React from 'react'
 
 type TProduct = {
   id: string
@@ -25,9 +27,13 @@ export default function Home({ products }: HomeProps) {
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 2,
-      spacing: 48
-    }
-  });
+      spacing: 48,
+    },
+  })
+
+  const handleAddProductOnCart = (product: TProduct) => {
+    console.log(product)
+  }
 
   return (
     <>
@@ -36,15 +42,30 @@ export default function Home({ products }: HomeProps) {
       </Head>
       <HomeContainer ref={sliderRef} className="keen-slider">
         {products.map((product) => (
-          <Link passHref href={`product/${product.id}`} key={product.id} prefetch={false}>
+          <Link
+            passHref
+            href={`product/${product.id}`}
+            key={product.id}
+            prefetch={false}
+          >
             <Product className="keen-slider__slide">
-            <Image src={product.imageUrl} width={520} height={480} alt="" />
+              <Image src={product.imageUrl} width={520} height={480} alt="" />
 
-            <footer>
-              <strong>{product.name}</strong>
-              <span>{product.price}</span>
-            </footer>
-          </Product>
+              <footer>
+                <div>
+                  <strong>{product.name}</strong>
+                  <span>{product.price}</span>
+                </div>
+                <CartButton
+                  size="lg"
+                  onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                    event.stopPropagation()
+                    event.preventDefault()
+                    handleAddProductOnCart(product)
+                  }}
+                />
+              </footer>
+            </Product>
           </Link>
         ))}
       </HomeContainer>
@@ -54,7 +75,7 @@ export default function Home({ products }: HomeProps) {
 
 export const getStaticProps: GetStaticProps = async () => {
   const response = await stripe.products.list({
-    expand: ['data.default_price']
+    expand: ['data.default_price'],
   })
 
   const products: TProduct[] = response.data.map((product) => {
@@ -64,14 +85,14 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: price.unit_amount ? formatPrice(price.unit_amount / 100) : '0'
+      price: price.unit_amount ? formatPrice(price.unit_amount / 100) : '0',
     }
   })
 
   return {
     props: {
-      products
+      products,
     },
-    revalidate: 60 * 60 * 2 // 2 hours
+    revalidate: 60 * 60 * 2, // 2 hours
   }
 }
