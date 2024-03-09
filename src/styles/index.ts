@@ -15,6 +15,7 @@ export const {
       white: '#fff',
       gray900: '#121214',
       gray800: '#202024',
+      gray700: '#29292E',
       gray300: '#c4c4cc',
       gray200: '#8D8D99',
       gray100: '#e1e1e6',
@@ -24,7 +25,7 @@ export const {
     },
 
     fontSizes: {
-      sm: '0.75rem',
+      sm: '0.875rem',
       md: '1.125rem',
       lg: '1.25rem',
       xl: '1.5rem',
