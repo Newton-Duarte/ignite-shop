@@ -1,4 +1,4 @@
-import { ShoppingBag } from 'phosphor-react'
+import { Handbag } from 'phosphor-react'
 import { Badge, Container } from './styles'
 
 type CartButtonProps = {
@@ -22,7 +22,7 @@ export function CartButton({
       className={productsCount ? 'active' : ''}
       onClick={onClick}
     >
-      <ShoppingBag size={32} />
+      <Handbag size={32} />
       {!!productsCount && <Badge>{productsCount}</Badge>}
     </Container>
   )

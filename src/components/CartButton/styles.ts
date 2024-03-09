@@ -17,11 +17,17 @@ export const Container = styled('button', {
         svg: {
           color: '$white',
         },
+        '&:hover': {
+          backgroundColor: '$green300',
+        },
       },
       secondary: {
         backgroundColor: '$gray800',
         svg: {
           color: '$gray200',
+        },
+        '&:hover': {
+          backgroundColor: '$gray700',
         },
       },
     },
@@ -67,8 +73,8 @@ export const Container = styled('button', {
 
 export const Badge = styled('div', {
   position: 'absolute',
-  width: 24,
-  height: 24,
+  width: 30,
+  height: 30,
   borderRadius: 999,
   textAlign: 'center',
   padding: 4,
