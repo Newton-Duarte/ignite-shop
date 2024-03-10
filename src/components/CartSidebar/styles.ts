@@ -66,17 +66,17 @@ export const Products = styled('ul', {
 
   /* Track */
   '&::-webkit-scrollbar-track': {
-    background: '$gray100',
+    background: '$gray700',
   },
 
   /* Handle */
   '&::-webkit-scrollbar-thumb': {
-    background: '$gray700',
+    background: '$gray100',
   },
 
   /* Handle on hover */
   '&::-webkit-scrollbar-thumb:hover': {
-    background: '$gray900',
+    background: '$gray200',
   },
 })
 

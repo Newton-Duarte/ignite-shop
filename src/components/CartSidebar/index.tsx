@@ -9,14 +9,14 @@ import {
   Total,
 } from './styles'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useCartSidebar } from '@/hooks/useCartSidebar'
 
-export function Sidebar() {
-  const [isOpen, setIsOpen] = useState(true)
+export function CartSidebar() {
+  const { isSidebarOpen, closeSidebar } = useCartSidebar()
 
   return (
-    <Container variant={isOpen ? 'open' : 'closed'}>
-      <CloseButton onClick={() => setIsOpen(false)}>
+    <Container variant={isSidebarOpen ? 'open' : 'closed'}>
+      <CloseButton onClick={closeSidebar} title="Close sidebar">
         <X size={24} />
       </CloseButton>
       <h4>Sacola de compras</h4>
