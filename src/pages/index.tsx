@@ -17,12 +17,15 @@ import { stripe } from '@/lib/stripe'
 import 'keen-slider/keen-slider.min.css'
 import { formatPrice } from '@/utils/formatter'
 import { CartButton } from '@/components/CartButton'
+import { useShoppingCart } from 'use-shopping-cart'
 
 type TProduct = {
   id: string
   name: string
   imageUrl: string
+  priceRaw: number
   price: string
+  defaultPriceId: string
 }
 
 interface HomeProps {
@@ -37,8 +40,19 @@ export default function Home({ products }: HomeProps) {
     },
   })
 
+  const { addItem } = useShoppingCart()
+
   const handleAddProductOnCart = (product: TProduct) => {
-    console.log(product)
+    addItem({
+      id: product.id,
+      name: product.name,
+      price_id: product.defaultPriceId,
+      priceId: product.defaultPriceId,
+      price: product.priceRaw,
+      image: product.imageUrl,
+      sku: product.id,
+      currency: 'BRL',
+    })
   }
 
   return (
@@ -97,7 +111,9 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
+      priceRaw: price.unit_amount || 0,
       price: price.unit_amount ? formatPrice(price.unit_amount / 100) : '0',
+      defaultPriceId: price.id,
     }
   })
 

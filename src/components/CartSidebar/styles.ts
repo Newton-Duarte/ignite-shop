@@ -88,11 +88,6 @@ export const Product = styled('li', {
     marginTop: '1.5rem',
   },
 
-  '> img': {
-    borderRadius: '8px',
-    objectFit: 'cover',
-  },
-
   '> div': {
     display: 'flex',
     alignItems: 'baseline',
@@ -124,6 +119,17 @@ export const Product = styled('li', {
         color: '$green300',
       },
     },
+  },
+})
+
+export const ImageContainer = styled('div', {
+  width: 102,
+  height: 93,
+  background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
+  borderRadius: '8px',
+
+  '> img': {
+    objectFit: 'cover',
   },
 })
 
@@ -175,4 +181,10 @@ export const Total = styled('div', {
       fontSize: '$xl',
     },
   },
+})
+
+export const EmptyCart = styled('p', {
+  textAlign: 'center',
+  color: '$gray200',
+  marginTop: '20rem',
 })

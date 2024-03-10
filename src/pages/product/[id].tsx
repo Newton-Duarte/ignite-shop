@@ -32,7 +32,13 @@ export default function Product({ product }: ProductProps) {
       setIsCreatingCheckoutSession(true)
 
       const response = await axios.post('/api/checkout', {
-        priceId: product.defaultPriceId,
+        products: [
+          {
+            id: product.id,
+            priceId: product.defaultPriceId,
+            quantity: 1,
+          },
+        ],
       })
 
       const { checkoutUrl } = response.data
@@ -80,12 +86,13 @@ export const getStaticPaths: GetStaticPaths = () => {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
   params,
 }) => {
-  const productId = params?.id!
+  const productId = params?.id
 
-  const product = await stripe.products.retrieve(productId, {
+  const product = await stripe.products.retrieve(productId!, {
     expand: ['default_price'],
   })
 

@@ -5,14 +5,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { priceId } = req.body
+  const { products } = req.body
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed.' })
   }
 
-  if (!priceId) {
-    return res.status(400).json({ error: 'Price not found.' })
+  if (!products || !products?.length) {
+    return res.status(400).json({ error: 'Products not found.' })
   }
 
   const successUrl = `${process.env.NEXT_URL}/success?session_id={CHECKOUT_SESSION_ID}`
@@ -22,12 +22,11 @@ export default async function handler(
     success_url: successUrl,
     cancel_url: cancelUrl,
     mode: 'payment',
-    line_items: [
-      {
-        price: priceId,
-        quantity: 1,
-      },
-    ],
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    line_items: products.map((product: any) => ({
+      price: product.priceId,
+      quantity: product.quantity,
+    })),
   })
 
   return res.status(201).json({
